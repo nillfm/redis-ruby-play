@@ -1,18 +1,10 @@
-require 'redis'
+require './common.rb'
 
-# playing with redis and ruby
-
-N = 1_000
-Delta = 100
+N = 1_000_00
+Delta = 10000
 @redis = Redis.new
 @result = []
 
-def time_op iteration, method
-	t1 = Time.now
-	send(method, iteration)
-	t2 = Time.now
-	@result << { run: method.to_s, n: iteration, timing: t2 - t1 }
-end
 
 def set_test(n)
 	for i in 1..n
@@ -61,6 +53,7 @@ end
 
 (1..N).step(Delta) do |n|
 	time_op n, :set_test
+	diagnostics n
 	time_op n, :get_test
 	time_op n, :set_test_pipeline
 	time_op n, :get_test_pipeline
