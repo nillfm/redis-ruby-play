@@ -13,7 +13,7 @@ Simple web client notification using redis, socket.io, and node.js: `node-web-no
 
 1. `cd node-web-notify`
 
-2.`npm install`
+2. `npm install`
 
 3. `node app.js`
 
