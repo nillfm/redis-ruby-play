@@ -21,7 +21,7 @@ app.configure('development', function() {
 
 io.sockets.on('connection', function(socket) {
   const redisClient = redis.createClient();
-  redisClient.subscribe('notify-fifo');
+  redisClient.subscribe('notify-queue');
 
   redisClient.on("message", function(channel, message) {
     socket.send(message);

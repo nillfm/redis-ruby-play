@@ -1,22 +1,40 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <title>Sample notifications</title>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-  Hello there!
+  <div class="jumbotron">
+    <div class="container">
+      <p>Hello there! Playing with notifications.</p>
+    </div>
+  </div>
   <hr>
-  <div id="notifications">
+  <div class="panel panel-default">
+    <div class="panel-heading">Notifications</div>
+    <ul class="list-group" id="notifications">
+    </ul>
   </div>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
   <script>
-    var socket = io.connect('http://localhost:3000');
-
-    /* at least on firefox, we can kill the client by spamming too much. */
-    socket.on('message', function (data) {
-      var d = document.getElementById('notifications');
-      d.innerHTML = d.innerHTML + '<br>' + Date.now() + ': ' +   data;
+    window.addEventListener('load', function() {
+      Notification.requestPermission(function(status) {
+        if(Notification.permission !== status) {
+          Notification.permission = status;
+        }
+      });
     });
 
+    var socket = io.connect('http://localhost:3000');
+
+    socket.on('message', function (data) {
+      notify(data);
+    });
+
+    function notify(data) {
+      var n = new Notification(data);
+    }
   </script>
 </body>
 </html>
